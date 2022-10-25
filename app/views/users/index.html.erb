@@ -3,47 +3,7 @@
     <main>
       <div class="container px-5 px-sm-0">
         <div class="row">
-          <div class="col-md-3">
-            <h2>User info</h2>
-            <% if @user.profile_image.attached? %>
-              <%= image_tag @user.profile_image, size: "200x200" %>
-            <% else %>
-              <%= image_tag 'no_image', size: "200x200" %>
-            <% end %>
-
-            <table class="table">
-              <tbody>
-                <tr>
-                  <th>name</th>
-                  <th><%= @user.name %></th>
-                </tr>
-                <tr>
-                  <th>introduction</th>
-                  <th><%= @user.introduction %></th>
-                </tr>
-              </tbody>
-            </table>
-            <div class="row">
-              <a class="btn btn-outline-secondary btn-block" href="/users/<%= @user.id %>/edit">
-                <i class="fas fa-user-cog"></i>
-              </a>
-            </div>
-
-            <h2 class="mt-3">New book</h2>
-            <%= form_with model: @book do |f| %>
-            <div class="form-group">
-              <h4>Title</h4>
-              <%= f.text_field :title %>
-            </div>
-            <div class="form-group">
-              <h4>Opinion</h4>
-              <%= f.text_area :body %>
-            </div>
-            <div class="form-group">
-              <%= f.submit 'Create Book' %>
-            </div>
-            <% end %>
-          </div>
+          <%= render 'devise/shared/left', user: @user, book: @book %>
           <div class="col-md-8 offset-md-1">
             <h2>Users</h2>
             <table class="table table-hover table-inverse">
@@ -60,9 +20,9 @@
                   <td>
                     <a href="/users/<%= user.id %>">
                       <% if user.profile_image.attached? %>
-                        <%= image_tag user.profile_image, size: "200x200" %>
+                        <%= image_tag user.profile_image, size: "80x80" %>
                       <% else %>
-                        <%= image_tag 'no_image', size: "200x200" %>
+                        <%= image_tag 'no_image', size: "80x80" %>
                       <% end %>
                     </a>
                   </td>
