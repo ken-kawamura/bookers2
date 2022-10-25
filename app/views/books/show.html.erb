@@ -33,7 +33,7 @@
             <%= form_with model: @book do |f| %>
             <div class="form-group">
               <h4>Title</h4>
-              <%= f.text_field :name %>
+              <%= f.text_field :title %>
             </div>
             <div class="form-group">
               <h4>Opinion</h4>
@@ -56,10 +56,12 @@
                       <% else %>
                         <%= image_tag 'no_image', size: "200x200" %>
                       <% end %>
+                      <br>
+                      <%= @book_show.user.name %>
                     </a>
                   </td>
                   <td>
-                    <a href='/books/<%= @book_show.id %>'><%= @book_show.name %></a>
+                    <a href='/books/<%= @book_show.id %>'><%= @book_show.title %></a>
                   </td>
                   <td><%= @book_show.body %></td>
                   <% if @book_show.user == current_user %>
