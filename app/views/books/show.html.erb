@@ -24,6 +24,22 @@
                     <a href='/books/<%= @book_show.id %>'><%= @book_show.title %></a>
                   </td>
                   <td><%= @book_show.body %></td>
+                  <td>
+                    <% if @book_show.favorited_by?(current_user) %>
+                      <p>
+                        <%= link_to book_favorites_path(@book_show), method: :delete do %>
+                          <i class="fas fa-heart"></i><%= @book_show.favorites.count %> いいね
+                        <% end %>
+                      </p>
+                    <% else %>
+                      <p>
+                        <%= link_to book_favorites_path(@book_show), method: :post do %>
+                          <i class="far fa-heart"></i><%= @book_show.favorites.count %> いいね
+                        <% end %>
+                      </p>
+                    <% end %>
+                  </td>
+                  <td><p>コメント件数：<%= @book_show.book_comments.count %></p></td>
                   <% if @book_show.user == current_user %>
                   <td>
                     <%= link_to "Edit", edit_book_path(@book_show), class: "btn btn-sm btn-success" %>
@@ -35,6 +51,31 @@
                 </tr>
               </tbody>
             </table>
+            <div>
+              <% @book_show.book_comments.each do |book_comment| %>
+              <div>
+                <a href="/users/<%= book_comment.user_id %>">
+                  <% if book_comment.user.profile_image.attached? %>
+                    <%= image_tag book_comment.user.profile_image, size: "80x80" %>
+                  <% else %>
+                    <%= image_tag 'no_image', size: "80x80" %>
+                  <% end %>
+                  <br>
+                  <%= book_comment.user.name %>
+                </a>
+                <%= book_comment.comment %>
+                <% if book_comment.user == current_user %>
+                  <%= link_to "Destroy", book_book_comment_path(book_comment.book, book_comment), method: :delete, class: "btn btn-sm btn-danger" %>
+                <% end %>
+              </div>
+              <% end %>
+            </div>
+            <div>
+              <%= form_with model: [@book_show, @book_comment] do |f| %>
+                <%= f.text_area :comment, rows: '5' %>
+                <%= f.submit "送信" %>
+              <% end %>
+            </div>
           </div>
         </div>
       </div>
